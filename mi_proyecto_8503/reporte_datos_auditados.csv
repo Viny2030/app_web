@@ -1,0 +1,51 @@
+id_proceso,producto,lote,etapa_actual,linea_produccion,cantidad_en_proceso,fecha_inicio,fecha_estim_termino,avance_porcentaje,estado,alerta_heuristica,anomaly,resultado_auditoria
+WIP-1000,Estantería,L-1409,Ensamblado,Línea A,45,2025-10-28,2025-10-30,13,En proceso,Fecha estimada vencida,1,Normal
+WIP-1001,Silla,L-5012,Control de calidad,Línea B,18,2025-11-05,2025-11-07,79,En proceso,Fecha estimada vencida,1,Normal
+WIP-1002,Mesa,L-3286,Ensamblado,Línea C,164,2025-11-02,2025-11-03,21,En proceso,Fecha estimada vencida,1,Normal
+WIP-1003,Mesa,L-9935,Control de calidad,Línea B,66,2025-10-27,2025-10-28,81,En proceso,Fecha estimada vencida,1,Normal
+WIP-1004,Estantería,L-7912,Corte,Línea A,188,2025-10-27,2025-11-04,85,En proceso,Fecha estimada vencida,-1,Anómalo
+WIP-1005,Estantería,L-2535,Ensamblado,Línea A,96,2025-10-08,2025-10-15,5,En proceso,Avance muy bajo | Fecha estimada vencida,-1,Anómalo
+WIP-1006,Armario,L-4811,Corte,Línea B,98,2025-11-02,2025-11-04,21,En proceso,Fecha estimada vencida,1,Normal
+WIP-1007,Silla,L-1434,Pintura,Línea C,41,2025-11-16,2025-11-26,43,En proceso,Sin alertas,1,Normal
+WIP-1008,Puerta,L-9928,Soldadura,Línea C,168,2025-11-01,2025-11-08,20,En proceso,Fecha estimada vencida,1,Normal
+WIP-1009,Mesa,L-4611,Corte,Línea A,179,2025-11-12,2025-11-18,83,En proceso,Fecha estimada vencida,1,Normal
+WIP-1010,Silla,L-5557,Ensamblado,Línea A,107,2025-11-13,2025-11-17,47,En proceso,Fecha estimada vencida,1,Normal
+WIP-1011,Estantería,L-3615,Ensamblado,Línea B,100,2025-10-23,2025-10-28,68,En proceso,Fecha estimada vencida,1,Normal
+WIP-1012,Estantería,L-6574,Corte,Línea C,172,2025-11-12,2025-11-16,95,En proceso,Fecha estimada vencida,-1,Anómalo
+WIP-1013,Mesa,L-3547,Ensamblado,Línea B,107,2025-11-05,2025-11-08,78,En proceso,Fecha estimada vencida,1,Normal
+WIP-1014,Puerta,L-6514,Ensamblado,Línea C,93,2025-11-02,2025-11-07,91,En proceso,Fecha estimada vencida,1,Normal
+WIP-1015,Silla,L-2519,Soldadura,Línea B,78,2025-10-27,2025-10-28,39,En proceso,Fecha estimada vencida,1,Normal
+WIP-1016,Puerta,L-2584,Soldadura,Línea A,177,2025-11-10,2025-11-12,37,En proceso,Fecha estimada vencida,1,Normal
+WIP-1017,Armario,L-6635,Ensamblado,Línea B,45,2025-11-09,2025-11-17,60,En proceso,Fecha estimada vencida,1,Normal
+WIP-1018,Puerta,L-1711,Soldadura,Línea C,159,2025-11-04,2025-11-08,81,En proceso,Fecha estimada vencida,1,Normal
+WIP-1019,Armario,L-9785,Soldadura,Línea A,45,2025-11-14,2025-11-21,84,En proceso,Fecha estimada vencida,1,Normal
+WIP-1020,Silla,L-7201,Corte,Línea A,49,2025-10-29,2025-11-07,73,En proceso,Fecha estimada vencida,1,Normal
+WIP-1021,Puerta,L-5803,Corte,Línea B,107,2025-10-26,2025-10-29,64,En proceso,Fecha estimada vencida,1,Normal
+WIP-1022,Puerta,L-4150,Soldadura,Línea C,12,2025-11-09,2025-11-19,69,En proceso,Fecha estimada vencida,1,Normal
+WIP-1023,Estantería,L-1750,Soldadura,Línea A,85,2025-10-26,2025-10-28,78,En proceso,Fecha estimada vencida,1,Normal
+WIP-1024,Armario,L-5741,Corte,Línea C,194,2025-11-03,2025-11-10,30,En proceso,Fecha estimada vencida,1,Normal
+WIP-1025,Mesa,L-4814,Control de calidad,Línea A,170,2025-10-26,2025-10-31,74,En proceso,Fecha estimada vencida,1,Normal
+WIP-1026,Puerta,L-7227,Control de calidad,Línea A,49,2025-10-27,2025-11-01,91,En proceso,Fecha estimada vencida,1,Normal
+WIP-1027,Puerta,L-8428,Control de calidad,Línea A,163,2025-11-05,2025-11-11,30,En proceso,Fecha estimada vencida,1,Normal
+WIP-1028,Silla,L-3664,Corte,Línea B,88,2025-11-09,2025-11-15,72,En proceso,Fecha estimada vencida,1,Normal
+WIP-1029,Mesa,L-6820,Control de calidad,Línea A,31,2025-11-09,2025-11-13,17,En proceso,Fecha estimada vencida,1,Normal
+WIP-1030,Puerta,L-5374,Ensamblado,Línea A,178,2025-11-02,2025-11-10,18,En proceso,Fecha estimada vencida,1,Normal
+WIP-1031,Mesa,L-3803,Soldadura,Línea C,165,2025-10-26,2025-11-03,80,En proceso,Fecha estimada vencida,1,Normal
+WIP-1032,Puerta,L-3677,Ensamblado,Línea C,89,2025-11-03,2025-11-10,37,En proceso,Fecha estimada vencida,1,Normal
+WIP-1033,Estantería,L-7216,Pintura,Línea C,125,2025-11-14,2025-11-21,95,En proceso,Fecha estimada vencida,1,Normal
+WIP-1034,Mesa,L-4598,Corte,Línea B,15,2025-11-05,2025-11-07,41,En proceso,Fecha estimada vencida,-1,Anómalo
+WIP-1035,Mesa,L-1916,Control de calidad,Línea A,11,2025-11-07,2025-11-17,80,En proceso,Fecha estimada vencida,1,Normal
+WIP-1036,Silla,L-1525,Ensamblado,Línea A,18,2025-11-03,2025-11-05,90,En proceso,Fecha estimada vencida,1,Normal
+WIP-1037,Puerta,L-7572,Ensamblado,Línea B,181,2025-11-07,2025-11-13,19,En proceso,Fecha estimada vencida,1,Normal
+WIP-1038,Puerta,L-2084,Ensamblado,Línea C,156,2025-11-04,2025-11-12,37,En proceso,Fecha estimada vencida,1,Normal
+WIP-1039,Mesa,L-6155,Pintura,Línea B,58,2025-11-02,2025-11-12,70,En proceso,Fecha estimada vencida,1,Normal
+WIP-1040,Armario,L-9179,Soldadura,Línea B,115,2025-11-02,2025-11-04,22,En proceso,Fecha estimada vencida,1,Normal
+WIP-1041,Silla,L-8517,Corte,Línea B,196,2025-11-11,2025-11-19,16,En proceso,Fecha estimada vencida,-1,Anómalo
+WIP-1042,Mesa,L-5339,Ensamblado,Línea A,147,2025-10-29,2025-11-04,23,En proceso,Fecha estimada vencida,1,Normal
+WIP-1043,Armario,L-5040,Ensamblado,Línea B,128,2025-10-29,2025-11-06,27,En proceso,Fecha estimada vencida,1,Normal
+WIP-1044,Armario,L-8019,Control de calidad,Línea A,22,2025-11-04,2025-11-08,19,En proceso,Fecha estimada vencida,1,Normal
+WIP-1045,Silla,L-6930,Ensamblado,Línea A,114,2025-11-11,2025-11-20,11,En proceso,Fecha estimada vencida,1,Normal
+WIP-1046,Mesa,L-3266,Pintura,Línea A,52,2025-11-02,2025-11-10,71,En proceso,Fecha estimada vencida,1,Normal
+WIP-1047,Armario,L-9085,Soldadura,Línea B,83,2025-11-16,2025-11-23,10,En proceso,Avance muy bajo,1,Normal
+WIP-1048,Armario,L-1771,Ensamblado,Línea A,85,2025-10-27,2025-11-03,81,En proceso,Fecha estimada vencida,1,Normal
+WIP-1049,Puerta,L-3504,Control de calidad,Línea A,90,2025-10-28,2025-11-01,17,En proceso,Fecha estimada vencida,1,Normal
