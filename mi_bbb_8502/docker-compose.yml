@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  conciliacion-app:
+    # Construye la imagen usando el Dockerfile de esta carpeta actual
+    build: . 
+    container_name: app_conciliacion_bancaria
+    restart: always
+    ports:
+      # Mapea el puerto externo 8502 al interno 8501
+      - "8502:8501"
+    volumes:
+      # Conecta la carpeta actual (.) con la del contenedor (/app)
+      - ./:/app
+    # IMPORTANTE: Configuración para que Streamlit sea accesible desde fuera del contenedor
+    command: streamlit run conciliacion_bancaria.py --server.port=8501 --server.address=0.0.0.0 --server.headless=true --server.enableCORS=false --server.enableXsrfProtection=false
