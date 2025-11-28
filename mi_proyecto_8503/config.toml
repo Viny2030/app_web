@@ -1,4 +1,0 @@
-# .streamlit/config.toml
-[server]
-port = 8501
-enableCORS = true
