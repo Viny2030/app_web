@@ -1,5 +1,5 @@
 # =================================================================
-# auditoria_prestamos.py (Lee desde Backblaze B2 y Audita)
+# auditoria_prestamos.py (Archivo Unificado: Contiene Lógica y Descarga B2)
 # =================================================================
 
 # --- 1. IMPORTACIONES UNIFICADAS ---
@@ -11,9 +11,50 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.ensemble import IsolationForest
 import streamlit as st
+import boto3  # <-- Añadido
+import os  # <-- Añadido
+import io  # <-- Añadido
 
-# Importar la función de DESCARGA de datos desde el módulo externo
-from generador_datos import obtener_dataset_prestamos_de_b2
+
+# =================================================================
+# FUNCIÓN INTEGRADA: DESCARGA DESDE BACKBLAZE B2 (S3)
+# =================================================================
+
+def obtener_dataset_prestamos_de_b2(bucket_name, file_key):
+    """
+    Descarga el archivo CSV desde Backblaze B2 (usando API compatible con S3).
+    Lee las credenciales automáticamente desde las variables de entorno inyectadas
+    por Docker (AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_ENDPOINT_URL).
+    """
+    # Obtener el Endpoint de B2 desde el entorno
+    endpoint_url = os.environ.get('AWS_ENDPOINT_URL')
+
+    if not endpoint_url:
+        st.error("ERROR: La variable de entorno AWS_ENDPOINT_URL no está definida. Revise el archivo .env.")
+        return pd.DataFrame()
+
+    try:
+        # Crear la sesión de Boto3. Boto3 busca las credenciales AWS_ACCESS_KEY_ID
+        # y AWS_SECRET_ACCESS_KEY automáticamente en las variables de entorno.
+        s3 = boto3.client(
+            's3',
+            endpoint_url=endpoint_url
+        )
+
+        # Descargar el objeto
+        st.info(f"Conectando a {endpoint_url}. Descargando {file_key} del bucket {bucket_name}...")
+        obj = s3.get_object(Bucket=bucket_name, Key=file_key)
+
+        # Leer el contenido directamente a Pandas
+        df = pd.read_csv(io.BytesIO(obj['Body'].read()))
+        return df
+
+    except Exception as e:
+        # Reportar el error en la interfaz de Streamlit
+        st.error(
+            f"Error al descargar datos de B2. Posiblemente el archivo no existe o las claves no son válidas. Detalles: {e}")
+        return pd.DataFrame()
+
 
 # =================================================================
 # 2. CONFIGURACIÓN DE PÁGINA
@@ -23,7 +64,7 @@ st.set_page_config(page_title="Auditoría de Préstamos Obtenidos", layout="wide
 
 
 # =================================================================
-# 3. LÓGICA DE AUDITORÍA
+# 3. LÓGICA DE AUDITORÍA (No modificada)
 # =================================================================
 
 def aplicar_auditoria(df):
@@ -54,7 +95,7 @@ def aplicar_auditoria(df):
 
 
 # =================================================================
-# 4. INTERFAZ DE STREAMLIT
+# 4. INTERFAZ DE STREAMLIT (Línea de importación eliminada)
 # =================================================================
 
 st.title("💸 Auditoría de Préstamos Obtenidos")
@@ -63,7 +104,7 @@ st.markdown(
 
 if st.button("Iniciar Auditoría", help="Descarga el dataset de Backblaze B2 y aplica el análisis completo"):
     with st.spinner('Descargando datos desde Backblaze B2 y ejecutando la auditoría...'):
-        # Llama a la función de descarga de B2
+        # Llama a la función de descarga de B2 (Ahora localmente definida)
         df_prestamos = obtener_dataset_prestamos_de_b2(bucket_name="dataset-raw", file_key="prestamos_simulados.csv")
 
         if df_prestamos.empty:

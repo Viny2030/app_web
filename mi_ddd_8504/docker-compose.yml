@@ -1,0 +1,21 @@
+version: '3.8'
+services:
+  auditoria-app:
+    # Construye la imagen usando el Dockerfile en el directorio actual
+    build: .
+    # Mapea el puerto 8080 del contenedor al puerto 8080 de tu máquina local
+    ports:
+      - "8080:8080"
+    # Inyecta automáticamente todas las variables definidas en el archivo .env
+    env_file:
+      - .env
+    # Se incluyen explícitamente las variables de OIDC.
+    # Esto asegura que sean leídas correctamente, especialmente si tu Streamlit
+    # las espera en el entorno o si el secrets.toml fue excluido (como es el caso).
+    environment:
+      - OIDC_CLIENT_ID=${OIDC_CLIENT_ID}
+      - OIDC_CLIENT_SECRET=${OIDC_CLIENT_SECRET}
+    # Opcional: Asigna un nombre fácil al contenedor
+    container_name: auditoria_prestamos_app
+    # Reinicia el contenedor automáticamente si falla
+    restart: always

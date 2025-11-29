@@ -9,7 +9,9 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copiar el resto de los archivos de la aplicación
-COPY . .
+COPY . . 
+# IMPORTANTE: Esto copia el archivo 'claves_blackblaze.txt' dentro.
+# DEBES eliminar este archivo antes de copiar todo.
 
 # Comando para ejecutar la aplicación de Streamlit
 EXPOSE 8080
