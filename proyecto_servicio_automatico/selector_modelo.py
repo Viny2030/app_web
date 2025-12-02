@@ -24,7 +24,6 @@ def seleccionar_modelos(tipo_problema):
         }
 
     if tipo_problema == "series_temporales":
-        # instalas prophet o pmdarima
         return {
             "prophet": "prophet",
             "arima": "pmdarima"

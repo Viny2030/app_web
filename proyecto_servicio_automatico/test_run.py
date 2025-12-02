@@ -49,6 +49,10 @@ def desplegar_dashboard_a_b2(ruta_zip, nombre_archivo_b2):
         return None
 
 
+# test_run.py
+
+# ... (código previo) ...
+
 # --- FLUJO PRINCIPAL ---
 if __name__ == "__main__":
 
@@ -58,19 +62,29 @@ if __name__ == "__main__":
 
     print(f"Iniciando proceso para el archivo de Backblaze: {NOMBRE_ARCHIVO_PRUEBA}")
 
+    # Inicialización de variables para prevenir KeyError si 'procesar_dataset' falla
+    ruta_zip, modelo, resultados = None, None, None
+
     try:
         # 1. Proceso ML y generación del ZIP
         ruta_zip, modelo, resultados = procesar_dataset(NOMBRE_ARCHIVO_PRUEBA, OUTPUT_DIR)
 
         print("\n=== Resumen del Proceso ML ===")
         # Intentamos obtener el tipo de problema del diccionario de resultados si está disponible
-        tipo_problema = resultados.get('tipo_problema', 'Desconocido')
+        # 💡 CORRECCIÓN: Usamos .get() de forma segura y solo si 'resultados' existe
+        tipo_problema = resultados.get('tipo_problema', 'Desconocido') if resultados else 'Fallo_en_ML'
         print(f"Tipo de problema: {tipo_problema}")
         print(f"Mejor Modelo: {type(modelo).__name__ if not isinstance(modelo, str) else modelo}")
         print(f"Resultados/Score: {resultados}")
 
         # 2. Pasar a la etapa de despliegue en B2
-        link_cliente = desplegar_dashboard_a_b2(ruta_zip, NOMBRE_ARCHIVO_PRUEBA)
+        # Solo intentamos desplegar si el proceso anterior no fue nulo
+        if ruta_zip:
+            link_cliente = desplegar_dashboard_a_b2(ruta_zip, NOMBRE_ARCHIVO_PRUEBA)
+        else:
+            link_cliente = None
+            print("\n🚨 El proceso ML falló antes de generar el ZIP. No hay nada que desplegar.")
+
 
         if link_cliente:
             print("\n==============================================")
@@ -78,7 +92,7 @@ if __name__ == "__main__":
             print(f"🔗 **Link para el Cliente (Paso 7)**: {link_cliente}")
             print("==============================================")
         else:
-            print("\n🚨 El despliegue a Backblaze B2 falló. Verifica las credenciales B2 en 'b2_integrator.py'.")
+            print("\n🚨 El despliegue a Backblaze B2 falló. Verifica las credenciales B2 en 'b2_integrator.py' o el error en el paso ML.")
 
     except Exception as e:
         print(f"\n❌ Proceso fallido en la etapa ML/B2 (Error General): {e}")

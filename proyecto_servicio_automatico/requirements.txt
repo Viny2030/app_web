@@ -1,8 +1,11 @@
-# requirements.txt
 pandas
-scikit-learn
 numpy
+scikit-learn
 xgboost
 streamlit
 matplotlib
 boto3
+plotly
+pmdarima
+prophet
+python-dotenv

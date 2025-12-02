@@ -1,89 +1,95 @@
 import pandas as pd
-# 💡 Importar la función de B2
 from b2_integrator import descargar_y_leer_csv_b2
-
 from detectar_tipo_problema import detectar_tipo_problema
 from selector_modelo import seleccionar_modelos
 from entrenador_automatico import entrenar_y_seleccionar
 from generar_dashboard import generar_dashboard
+import os
 
 
-# 💡 La función ahora debe llamarse diferente o aceptar el nombre del archivo B2
-# Usaremos 'nombre_archivo_b2' como entrada
 def procesar_dataset(nombre_archivo_b2, output_folder):
-    # 1. Leer dataset (¡Usando la función de B2!)
-    # Si la descarga falla, 'descargar_y_leer_csv_b2' lanzará una excepción.
+    # 1. Leer dataset
     df = descargar_y_leer_csv_b2(nombre_archivo_b2)
 
     # 2. Detectar tipo de problema
     tipo = detectar_tipo_problema(df)
 
-    # 3. Seleccionar modelos candidatos
-    modelos = seleccionar_modelos(tipo)
-
-    mejor_modelo = None
+    # Inicialización de variables (para robustez y evitar errores)
+    resultados = {"tipo_problema": tipo}
+    mejor_modelo = "Modelo no entrenado"
     pred = []
     reales = []
-    resultados = {"tipo_problema": tipo}  # Agregamos el tipo al diccionario de resultados
 
-    # 4. Preparar datos y entrenar
+    # 3. Flujo de Clasificación/Regresión
     if tipo in ["clasificacion", "regresion"]:
 
-        # ⚠️ Nota: Asume que la columna target se llama "target"
+        # 3.1. VERIFICACIÓN DEL TARGET
         if "target" not in df.columns:
-            # Manejo de error o caída a clustering/anomalías si no se encuentra el target esperado
-            print("Alerta: 'target' no encontrado. Cayendo a Clustering.")
+            # Si se esperaba Clasificación/Regresión pero no hay 'target', cambiamos el tipo.
+            print("Alerta: 'target' no encontrado. Cambiando a Clustering/Anomalías.")
             tipo = "clustering_o_anomalias"
-            resultados["tipo_problema"] = tipo  # Actualizar el tipo
+            resultados["tipo_problema"] = tipo
+            # El flujo continuará en el bloque 'elif tipo == "clustering_o_anomalias"'
+
         else:
+            # EJECUCIÓN CLASIFICACIÓN/REGRESIÓN
             y = df["target"]
             X = df.drop("target", axis=1)
 
-            # =======================================================
-            # 💡 SOLUCIÓN: LIMPIEZA DE COLUMNAS NO NUMÉRICAS
-            # =======================================================
-            print("-> Limpiando características no numéricas (solo se mantienen tipos numéricos para ML).")
-
-            # Identificar columnas no numéricas en las características (X)
-            # 'object' incluye la mayoría de las strings que causan el error
+            # Limpieza de columnas no numéricas...
             columnas_a_eliminar = X.select_dtypes(include=['object', 'category']).columns
-
             X = X.drop(columns=columnas_a_eliminar, errors='ignore')
 
-            print(f"-> Columnas eliminadas en X: {columnas_a_eliminar.tolist()}")
-            # =======================================================
+            # Entrenamiento con Manejo de Errores
+            try:
+                mejor_modelo, resultados_score = entrenar_y_seleccionar(X, y, seleccionar_modelos(tipo), tipo)
+                resultados.update(resultados_score)
 
-            mejor_modelo, resultados_score = entrenar_y_seleccionar(X, y, modelos, tipo)
+                # Generar predicciones para el dashboard
+                pred = mejor_modelo.predict(X).tolist()
+                reales = y.tolist()
 
-            # Combinar resultados
-            resultados.update(resultados_score)
+            except Exception as e:
+                print(f"❌ ERROR CRÍTICO en el Entrenamiento de {tipo.upper()}: {e}")
+                mejor_modelo = "Entrenamiento Fallido"
+                pred = [None] * len(y) if 'y' in locals() else []
+                reales = y.tolist() if 'y' in locals() else []
 
-            # Generar predicciones y reales para el dashboard
-            pred = mejor_modelo.predict(X).tolist()
-            reales = y.tolist()
-
-    if tipo == "series_temporales":
-        # Manejo de Series Temporales (Pendiente de implementar el entrenamiento real)
+    # 4. Flujo de Series Temporales (ALINEADO CORRECTAMENTE)
+    elif tipo == "series_temporales":
         mejor_modelo = "prophet"
         pred = [0] * len(df)
         reales = [1] * len(df)
         resultados.update({"info": "Entrenamiento con Series Temporales (Placeholder)"})
 
+    # 5. Flujo de Clustering (ALINEADO CORRECTAMENTE)
     elif tipo == "clustering_o_anomalias":
-        # clustering/anomalías
-        # Nos aseguramos de que solo trabajamos con datos numéricos para KMeans/DBSCAN
-        X_cluster = df.select_dtypes(include=['number']).fillna(0)  # Rellenar NaNs para modelos no robustos
+        modelos = seleccionar_modelos(tipo)
+        X_cluster = df.select_dtypes(include=['number']).fillna(0)
 
-        # Usamos KMeans como modelo de ejemplo
-        modelo = modelos["kmeans"]
-        modelo.fit(X_cluster)
+        # Se requiere al menos 2 columnas para el gráfico y entrenamiento robusto
+        if X_cluster.shape[1] >= 2:
 
-        pred = modelo.labels_.tolist()
-        reales = [None] * len(pred)  # Reales no aplicables en clustering
-        mejor_modelo = modelo
-        resultados.update({"clusters_encontrados": modelo.n_clusters})
+            try:
+                modelo = modelos["kmeans"]
+                modelo.fit(X_cluster)
+                pred = modelo.labels_.tolist()
+                reales = [None] * len(pred)
+                mejor_modelo = modelo
+                resultados.update({"clusters_encontrados": modelo.n_clusters, "metodo": "KMeans"})
 
-    # 5. Generar dashboard en streamlit
+            except Exception as e:
+                print(f"❌ ERROR CRÍTICO en el entrenamiento de CLUSTERING: {e}")
+                mejor_modelo = "Clustering Fallido (Ver logs)"
+                pred = [None] * len(X_cluster)
+                resultados.update({"error": f"Fallo al entrenar KMeans: {e}", "status": "Error"})
+
+        else:
+            print("Alerta: Menos de 2 columnas numéricas para Clustering.")
+            mejor_modelo = "Clustering no ejecutado"
+            resultados.update({"error": "No hay suficientes datos numéricos para clustering."})
+
+    # 6. Generar dashboard (Asegurar que esta función está fuera de los bloques IF/ELIF)
     ruta_zip = generar_dashboard(
         df=df,
         predicciones=pred,

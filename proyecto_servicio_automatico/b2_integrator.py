@@ -3,22 +3,15 @@ import pandas as pd
 import io
 import os
 
-# ==============================================================================
-# 🎯 CONFIGURACIÓN Y CREDENCIALES DE BACKBLAZE B2
-# ==============================================================================
+# =============== VARIABLES DESDE ENTORNO ==================
+READ_KEY_ID = os.getenv("READ_KEY_ID")
+READ_APPLICATION_KEY = os.getenv("READ_APPLICATION_KEY")
+WRITE_KEY_ID = os.getenv("WRITE_KEY_ID")
+WRITE_APPLICATION_KEY = os.getenv("WRITE_APPLICATION_KEY")
 
-# CLAVES DE LECTURA (READ): Usadas para descargar de 'dataset-raw'
-# Clave nueva dedicada a lectura (Colab-Dataset-Raw)
-READ_KEY_ID = '005a7f47ac71b1b0000000004'
-READ_APPLICATION_KEY = 'K005Sy735QWuGZiqdoCTj2we6UHfIDU'
-
-# CLAVES DE ESCRITURA (WRITE): Usadas para subir a 'repositorio-web'
-# Clave anterior dedicada a escritura (Colab-repositorio-web)
-WRITE_KEY_ID = '005a7f47ac71b1b0000000003'
-WRITE_APPLICATION_KEY = 'K0051Lm50ayKiZ5X9PB96LpzaGfF2JM'
-
-B2_BUCKET_NAME_RAW = 'dataset-raw'  # Bucket de entrada
-B2_ENDPOINT_URL = 'https://s3.us-east-005.backblazeb2.com'
+B2_BUCKET_NAME_RAW = os.getenv("B2_BUCKET_NAME_RAW", "dataset-raw")
+B2_BUCKET_RESULTADOS = os.getenv("B2_BUCKET_RESULTADOS", "repositorio-web")
+B2_ENDPOINT_URL = os.getenv("B2_ENDPOINT_URL", "https://s3.us-east-005.backblazeb2.com")
 
 
 # ==============================================================================
