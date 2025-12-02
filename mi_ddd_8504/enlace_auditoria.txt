@@ -1,6 +1,0 @@
-# Contenido del archivo: enlace_auditoria.txt
-
-La aplicación de Auditoría de Préstamos está disponible en la siguiente URL:
-
-http://localhost:8080 
-# (Reemplaza con la URL pública si se despliega en la nube, ej. https://mi-empresa-auditoria.com)
