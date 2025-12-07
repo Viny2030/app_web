@@ -1,7 +1,7 @@
 import boto3
 from botocore.exceptions import ClientError
 from pathlib import Path
-from typing import Optional, Union
+from typing import Dict, Optional, Union
 import logging
 from ..config import B2_KEY_ID, B2_APPLICATION_KEY, B2_BUCKET_INPUT, B2_BUCKET_OUTPUT, B2_ENDPOINT
 
