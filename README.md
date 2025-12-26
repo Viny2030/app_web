@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Proyecto Low-Code de Análisis de Datos
 
 Este es un proyecto de análisis de datos diseñado para ser utilizado con herramientas de bajo código.
@@ -46,3 +47,7 @@ streamlit run src/app.py
 ## Licencia
 
 Este proyecto está bajo la Licencia MIT.
+=======
+# Esta es la descripcion de mi app_web
+# Esta es la descripcion de mi app web
+>>>>>>> 554b11f (Guardando README y estructura de carpetas)
