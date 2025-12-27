@@ -1,0 +1,9 @@
+.env
+__pycache__/
+*.pyc
+data/uploaded/*
+app_web/.env
+__pycache__/
+*.pyc
+.DS_Store
+data/uploaded/*
